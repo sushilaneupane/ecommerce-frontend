@@ -1,0 +1,14 @@
+.navbar-brand {
+    font-size: 1.5rem;
+  }
+  
+  .nav-link {
+    margin-right: 1rem;
+    color: #000;
+  }
+  
+  .badge {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+  
