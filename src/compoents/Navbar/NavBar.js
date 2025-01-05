@@ -12,12 +12,13 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 function Menu() {
   return (
     <>
+      {/* Top Navbar */}
       <Navbar bg="light" className="shadow-sm py-2 border-bottom">
-        <Container>
+        <Container fluid>
           <Navbar.Brand href="/" className="fw-bold">
-            ✧･ﾟ: ✧Mato Craft✧:･ﾟ✧
+            ✧･ﾟMato Craft✧
           </Navbar.Brand>
-          <Form className="d-flex w-lg-50 w-sm-100">
+          <Form className="d-flex w-50 w-md-50 my-2 my-md-0">
             <Form.Control
               type="search"
               placeholder="Search..."
@@ -28,16 +29,16 @@ function Menu() {
               <i className="bi bi-search"></i>
             </Button>
           </Form>
-          <Nav>
+          <Nav className="d-none d-md-flex">
             <Nav.Link href="/Login" className="d-flex align-items-center">
               <i className="bi bi-person me-1" aria-hidden="true"></i>
               <span>Log In</span>
             </Nav.Link>
-            <Nav.Link href="#favorites" className="d-flex align-items-center">
+            <Nav.Link href="/favourite" className="d-flex align-items-center">
               <i className="bi bi-heart me-1" aria-hidden="true"></i>
               <span>Favorites</span>
             </Nav.Link>
-            <Nav.Link href="#cart" className="d-flex align-items-center">
+            <Nav.Link href="/cart" className="d-flex align-items-center">
               <i className="bi bi-cart me-1" aria-hidden="true"></i>
               <span>Cart</span>
             </Nav.Link>
@@ -45,16 +46,14 @@ function Menu() {
         </Container>
       </Navbar>
 
-      
       <Navbar bg="light" expand="lg" className="py-2">
-        <Container>
+        <Container fluid>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">AllShop</Nav.Link>
-              <Nav.Link href="/contact-us"> Customer Care </Nav.Link>
+              <Nav.Link href="/products">AllShop</Nav.Link>
+              <Nav.Link href="/contact-us">Customer Care</Nav.Link>
               <Nav.Link href="/Store">Store</Nav.Link>
-              <Nav.Link href="/sale">Sale</Nav.Link>
               <NavDropdown title="Makeup Products" id="basic-nav-dropdown">
                 {[
                   { href: "#skincare", label: "Skincare Products" },
@@ -67,6 +66,20 @@ function Menu() {
                   </NavDropdown.Item>
                 ))}
               </NavDropdown>
+            </Nav>
+            <Nav className="d-flex d-md-none mt-3">
+              <Nav.Link href="/Login" className="d-flex align-items-center">
+                <i className="bi bi-person me-1" aria-hidden="true"></i>
+                <span>Log In</span>
+              </Nav.Link>
+              <Nav.Link href="#favorites" className="d-flex align-items-center">
+                <i className="bi bi-heart me-1" aria-hidden="true"></i>
+                <span>Favorites</span>
+              </Nav.Link>
+              <Nav.Link href="#cart" className="d-flex align-items-center">
+                <i className="bi bi-cart me-1" aria-hidden="true"></i>
+                <span>Cart</span>
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

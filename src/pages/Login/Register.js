@@ -15,11 +15,11 @@ function RegisterForm() {
     };
 
     return (
-        <Container className="py-5">
+        <Container className="py-5 mb-5">
             <Row className="justify-content-center">
                 <Col md={6}>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                        <Row className="mb-3">
+                        <Row className="mb-3 p-2">
                             <Col>
                                 <Form.Group controlId="validationFirstName">
                                     <Form.Label className="visually-hidden">First Name</Form.Label>
@@ -40,7 +40,7 @@ function RegisterForm() {
                             </Col>
                         </Row>
 
-                        <Row className="mb-3">
+                        <Row className="mb-3 p-2">
                             <Col>
                                 <Form.Group controlId="validationEmail">
                                     <Form.Label className="visually-hidden">Email</Form.Label>
@@ -51,7 +51,7 @@ function RegisterForm() {
                                 </Form.Group>
                             </Col>
                             </Row>
-                            <Row className="mb-3">
+                            <Row className="mb-3 p-2">
                                 <Col>
                                     <Form.Group>
                                         <Form.Label className="visually-hidden">Password</Form.Label>
@@ -59,7 +59,7 @@ function RegisterForm() {
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <Row className="mb-3">
+                            <Row className="mb-3 p-2">
                             <Col>
                                 <Form.Group controlId="validationPhone">
                                     <Form.Label className="visually-hidden">Phone</Form.Label>
@@ -70,7 +70,7 @@ function RegisterForm() {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Button type="submit" className="w-100 btn-dark">
+                        <Button type="submit" className="w-100 primary">
                             Register
                         </Button>
                     </Form>

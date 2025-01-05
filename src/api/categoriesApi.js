@@ -9,3 +9,4 @@ export const getCategories = async () => {
     throw new Error("Failed to fetch categories. Please try again later.");
   }
 };
+

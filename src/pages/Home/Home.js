@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
 import { getProducts } from "../../api/products";
 
-function Home() {
+function  Home() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,43 +51,60 @@ function Home() {
 
       {!loading && !error && (
         <Row>
-          <Col lg={3} md={4} className="border-end">
-                   <h5> ＢＲＯＷＳＥ ＢＹ ✨</h5>
-                   <ul className="list-unstyled">
-                     <li>
-                       <a href="./products">All Products</a>
-                     </li>
-                   </ul>
-                   <hr />
-                   <h5>Filter By</h5>
-                   <Form>
-                     <Form.Label>Price</Form.Label>
-                     <Form.Range />
-                     <div className="d-flex justify-content-between">
-                       <span>$11.99</span>
-                       <span>$19.99</span>
-                     </div>
-                   </Form>
-                 </Col>
+          <Col xs={12} md={3} className="mb-4">
+            <h5> ＢＲＯＷＳＥ ＢＹ ✨</h5>
+           <ul className="list-unstyled">
+              {categories.map((category) => (
+                <li key={category.id}>
+                <a href="/category">  <Link to={`/category/${category.id}`}>{category.name}</Link></a>
+                </li>
+              ))}
+            </ul>
+           
+            <h5 className="mt-4">Filter by</h5>
+            <Form>
+              <Form.Group controlId="priceRange">
+                <Form.Label>Price</Form.Label>
+                <Form.Range min={25} max={400} />
+                <div className="d-flex justify-content-between">
+                  <span>25.00</span>
+                  <span>400.00</span>
+                </div>
+              </Form.Group>
+              <Form.Group className="mt-3">
+                <Form.Label>Model</Form.Label>
+                <Form.Select>
+                  <option>Select Model</option>
+                  <option>Model A</option>
+                  <option>Model B</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="mt-3">
+                <Form.Label>Size</Form.Label>
+                <Form.Select>
+                  <option>Select Size</option>
+                  <option>Small</option>
+                  <option>Medium</option>
+                  <option>Large</option>
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </Col>
 
           <Col xs={12} md={9}>
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h3>Best Seller</h3>
-              <a href="./bestSeller" className=" text-decoration-none">
-               See More [<span>{products.length}</span>]
-              </a>
-
+              <h3>All Products</h3>
+              <span>{products.length} products</span>
               <Form.Select className="w-auto" defaultValue="Recommended">
-              <option> Recommended</option>
-                <option>Newest</option>
-                <option>Price (High to Low)</option>
-                <option>Price (High to Low)</option>
-                <option>Name A-Z</option>
-                <option>Name Z-A</option>
+                <option value="LowToHigh">Price Low to High</option>
+                <option value="HighToLow">Price High to Low</option>
+                <option value="AZ">Name start from A-Z</option>
+                <option value= "Newest">Newest</option>
+                <option value="ZA">Name Z-A</option>
               </Form.Select>
             </div>
 
-            <Row>
+            <a href="./product"> <Row>
               {products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
                   <Card className="h-100">
@@ -101,16 +118,17 @@ function Home() {
                         {product.productName || "Unknown Product"}
                       </Card.Text>
                       <Card.Text className="text-center">
-                        {typeof product.price === "number"
-                          ? product.price.toFixed(2)
-                          : "N/A"}
+                       {
+                           product.price
+                       }
                       </Card.Text>
-                      <span className="badge bg-danger text-white">Best Seller</span>
+                     
                     </Card.Body>
                   </Card>
                 </Col>
               ))}
             </Row>
+            </a>
           </Col>
         </Row>
       )}

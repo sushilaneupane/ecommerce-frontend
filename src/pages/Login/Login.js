@@ -60,7 +60,7 @@ function LoginForm() {
             <div className="d-flex">
            
             <span className="text-start m-4"> Dont have account? <a href="/register"> Sign Up</a></span>
-            <span className=" text-end m-2"> <a href="/register"> Forget Password</a></span>
+           
             </div>
             <div className="text-center">or</div>
 

@@ -11,7 +11,7 @@ function SalePage() {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a>Home</a>
+                <a href="/">Home</a>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Sale

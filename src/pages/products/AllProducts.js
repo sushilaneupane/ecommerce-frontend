@@ -104,7 +104,7 @@ function  AllProduct() {
               </Form.Select>
             </div>
 
-            <Row>
+          <a href="./product"> <Row>
               {products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
                   <Card className="h-100">
@@ -128,8 +128,10 @@ function  AllProduct() {
                 </Col>
               ))}
             </Row>
+            </a> 
           </Col>
         </Row>
+       
       )}
     </Container>
   );

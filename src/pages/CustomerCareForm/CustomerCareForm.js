@@ -50,7 +50,7 @@ function CustomerCareForm() {
         <Col md={6}>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
           
-            <Row className="mb-3">
+            <Row className="mb-3 p-2">
               <Col>
                 <Form.Group controlId="validationFirstName">
                   <Form.Label className="visually-hidden">First Name</Form.Label>
@@ -72,7 +72,7 @@ function CustomerCareForm() {
             </Row>
 
            
-            <Row className="mb-3">
+            <Row className="mb-3 p-2">
               <Col>
                 <Form.Group controlId="validationEmail">
                   <Form.Label className="visually-hidden">Email</Form.Label>
@@ -92,7 +92,7 @@ function CustomerCareForm() {
                 </Form.Group>
               </Col>
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-3 p-2">
               <Col>
                 <Form.Group controlId="validationMessage">
                   <Form.Label className="visually-hidden">Message</Form.Label>
@@ -100,7 +100,7 @@ function CustomerCareForm() {
                 </Form.Group>
               </Col>
             </Row>
-            <Button type="submit" className="w-100 btn-dark">
+            <Button type="submit" className="w-100 primary">
               Submit
             </Button>
           </Form>
