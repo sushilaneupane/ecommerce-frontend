@@ -28,6 +28,7 @@ const AppRouter = () => {
             <Route path='/category/:categoryId' element={<CategoryPage/>} />
             < Route path='/favourite' element={<Favourites />} />
             <Route path='/cart' element={<Cart />} />
+            <Route path="/product/:productId" element={<ProductPage />} />
         </Routes>
     );
 }

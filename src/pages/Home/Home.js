@@ -104,9 +104,10 @@ function  Home() {
               </Form.Select>
             </div>
 
-            <a href="./product"> <Row>
+             <Row>
               {products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
+                  <a href="product"><Link to={`/product/${product.id}`}>
                   <Card className="h-100">
                     <Card.Img
                       variant="top"
@@ -125,10 +126,13 @@ function  Home() {
                      
                     </Card.Body>
                   </Card>
+                  </Link>
+                  </a>
                 </Col>
+               
               ))}
             </Row>
-            </a>
+           
           </Col>
         </Row>
       )}

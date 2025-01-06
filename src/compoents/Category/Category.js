@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
 import { getProducts, getProductsByCategoryId } from "../../api/products"; 
@@ -48,6 +48,7 @@ function CategoryPage() {
             {products.length > 0 ? (
               products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
+                  <a href="/product"><Link to={`/product/${product.id}`}>
                   <Card className="h-100">
                     <Card.Img
                       variant="top"
@@ -65,6 +66,7 @@ function CategoryPage() {
                       </Card.Text>
                     </Card.Body>
                   </Card>
+                  </Link></a>
                 </Col>
               ))
             ) : (

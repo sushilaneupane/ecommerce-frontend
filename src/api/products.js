@@ -18,3 +18,13 @@ export const getProductsByCategoryId= async (categoryId) => {
     throw new Error(error.response?.data?.message || "Failed to fetch products for the category");
   }
 };
+
+export const getProductsById= async (productId) => {
+  try {
+    const response = await axiosInstance.get(`/products/${productId}`);
+    return response.data; 
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch product by given Id");
+  }
+};
+

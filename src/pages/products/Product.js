@@ -1,40 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getProductsById } from "../../api/products";
 import { Container, Row, Col, Breadcrumb, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useParams, Link } from "react-router-dom";
 
 const ProductPage = () => {
+    const { productId } = useParams();
+    const [product, setProduct] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log(productId);
+                const productsData = await getProductsById(productId);
+                setProduct(productsData);
+            } catch (err) {
+                console.log(err.message || "Something went wrong while fetching data.");
+            }
+        };
+        fetchData();
+    }, [productId]);
+
     return (
         <Container className="mt-4 mb-5">
             <Breadcrumb>
-                <Breadcrumb.Item href="/" className="text-decoration-none">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href="products">All Products</Breadcrumb.Item>
-                <Breadcrumb.Item active>Product Name</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }} className="text-decoration-none">
+                    Home
+                </Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/products" }}>
+                    All Products
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>{product.productName || "Product Name"}</Breadcrumb.Item>
             </Breadcrumb>
 
             <Row>
                 <Col md={6}>
                     <img
-                        src="./src/image/cardimage.jpg"
+                        src={product.image || "/image/cardimage.jpg"} // Dynamically load image
                         alt="Product"
                         className="img-fluid border"
                     />
                 </Col>
                 <Col md={6}>
-                    <h4>Product Name</h4>
+                    <h4>{product.productName || "Product Name"}</h4>
                     <p className="text-danger">
-                        <span className="text-muted ">Rs 500</span>
+                        <span className="text-muted ">Rs {product.price || "0"}</span>
                     </p>
 
                     <Form>
-                        <Form.Group className="mb-3">
+                        {/* <Form.Group className="mb-3">
                             <Form.Label>Color:</Form.Label>
                             <div>
-                                <Form.Check
-                                    type="radio"
-                                    name="color"
-                                    label="Black"
-                                    defaultChecked
-                                />
+                                <Form.Check type="radio" name="color" label="Black" defaultChecked />
                             </div>
                         </Form.Group>
 
@@ -45,7 +62,7 @@ const ProductPage = () => {
                                 <option value="M">Medium</option>
                                 <option value="L">Large</option>
                             </Form.Select>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Form.Group className="mb-3 w-25">
                             <Form.Label>Quantity:</Form.Label>
@@ -53,32 +70,28 @@ const ProductPage = () => {
                         </Form.Group>
 
                         <div className="mb-3 d-flex gap-4">
-                            <a href="/favourite">
+                            <Link to="/favourite">
                                 <Button variant="success" className="d-flex align-items-center">
                                     Add to Favourites <i className="bi bi-heart ms-2" aria-hidden="true"></i>
                                 </Button>
-                            </a>
-                            <a href="/cart">
+                            </Link>
+                            <Link to="/cart">
                                 <Button variant="success" className="d-flex align-items-center">
                                     Add to Cart <i className="bi bi-cart ms-2" aria-hidden="true"></i>
                                 </Button>
-                            </a>
+                            </Link>
                         </div>
 
-
-                        <a href='/buy'>
+                        <Link to="/buy">
                             <div className="mb-3">
                                 <Button variant="danger">Buy Now</Button>
                             </div>
-                        </a>
+                        </Link>
                     </Form>
 
                     <div className="mb-3">
                         <h5>Product Info</h5>
-                        <p>
-                            I'm a product detail. I'm a great place to add more information about your
-                            product such as sizing, material, care, and cleaning instructions.
-                        </p>
+                        <p>{product.description || "No description available."}</p>
                     </div>
 
                     <div>
