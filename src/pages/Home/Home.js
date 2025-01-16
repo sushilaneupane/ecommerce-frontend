@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Spinner, Alert } from "react-bootstrap
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
-import { getProducts } from "../../api/products";
+import { getProducts } from "../../api/productsApi";
 
 function  Home() {
   const [categories, setCategories] = useState([]);
@@ -111,7 +111,7 @@ function  Home() {
                   <Card className="h-100">
                     <Card.Img
                       variant="top"
-                      src="https://via.placeholder.com/150"
+                      src="/image/cardimage.jpg"
                       alt={product.productName || "Product Image"}
                     />
                     <Card.Body>
@@ -123,7 +123,6 @@ function  Home() {
                            product.price
                        }
                       </Card.Text>
-                     
                     </Card.Body>
                   </Card>
                   </Link>

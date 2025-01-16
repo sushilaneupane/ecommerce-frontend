@@ -10,7 +10,7 @@ import BestSeller from './pages/Sale/BestSeller';
 import AllProduct from './pages/products/AllProducts';
 import ProductPage from './pages/products/Product';
 import Favourites from './pages/Favourites/Favourite';
-import Cart from './pages/Cart/Cart';
+import ShoppingCart from './pages/Cart/Cart';
 import CategoryPage from './compoents/Category/Category';
 
 const AppRouter = () => {
@@ -27,7 +27,7 @@ const AppRouter = () => {
             <Route path='/product' element={<ProductPage />} />
             <Route path='/category/:categoryId' element={<CategoryPage/>} />
             < Route path='/favourite' element={<Favourites />} />
-            <Route path='/cart' element={<Cart />} />
+            <Route path='/cart' element={<ShoppingCart />} />
             <Route path="/product/:productId" element={<ProductPage />} />
         </Routes>
     );

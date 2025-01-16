@@ -1,81 +1,95 @@
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { LoginUser } from "../../api/usersApi";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    
-    if (!username || !password) {
-      setError("Please fill in both fields.");
-      return;
-    }
-
-   
-    setError("");
-
   
-    console.log("Form submitted with: ", { username, password });
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await LoginUser(loginData)  
+
+      if (response.status === 200) {
+        const token = response.data.data.token;
+        const user = response.data.data.user;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        toast.success(response.data.message);
+        setTimeout(() => navigate("/"), 500);
+      }
+    } catch (error) {
+      toast.error(error.error);
+    }
   };
 
   return (
-    <Container className="mt-3 mb-5">
+    <Container className="py-5 mb-5">
       <Row className="justify-content-center">
-        <Col xs={12} md={6} lg={4}>
-          <h3 className="text-center mb-4">Login</h3>
-          {error && <Alert variant="danger">{error}</Alert>}
+        <Col md={6}>
           <Form onSubmit={handleSubmit}>
-            
-            <Form.Group controlId="formUsername" className="mb-3">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Form.Group>
-
-            
-            <Form.Group controlId="formPassword" className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-
-          
-            <Button variant="primary" type="submit" className="w-100  justify-content center mb-3">
+            <Row className="mb-3 p-2">
+              <Col>
+                <Form.Group controlId="validationEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Email *"
+                    name="email"
+                    value={loginData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid email address.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="mb-3 p-2">
+              <Col>
+                <Form.Group controlId="validationPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password *"
+                    name="password"
+                    value={loginData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a password.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Button type="submit" className="w-100 primary">
               Login
             </Button>
-            <div className="d-flex">
-           
-            <span className="text-start m-4"> Dont have account? <a href="/register"> Sign Up</a></span>
-           
+            <div className="p-3">
+              Don't have an account? <a href="/register">Sign Up</a>
             </div>
-            <div className="text-center">or</div>
-
-          <div className="d-flex">
-          <span className="w-100 mb-2">
-              <i className="bi bi-google me-2"></i>Login with Google
-            </span>
-            <span className="w-100 ">
-              <i className="bi bi-facebook me-2"></i>Login with Facebook
-            </span>
-          </div>
-         
           </Form>
         </Col>
       </Row>
+      <ToastContainer />
     </Container>
   );
 }

@@ -3,9 +3,9 @@ import { Container, Row, Col, Card, Form, Spinner, Alert } from "react-bootstrap
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
-import { getProducts } from "../../api/products";
+import { getProducts } from "../../api/productsApi";
 
-function  AllProduct() {
+function  AllProducts() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,13 +53,14 @@ function  AllProduct() {
         <Row>
           <Col xs={12} md={3} className="mb-4">
             <h5> ＢＲＯＷＳＥ ＢＹ ✨</h5>
-            <ul className="list-unstyled">
+           <ul className="list-unstyled">
               {categories.map((category) => (
                 <li key={category.id}>
-                  <Link to={`/category/${category.id}`}>{category.name}</Link>
+                <a href="/category">  <Link to={`/category/${category.id}`}>{category.name}</Link></a>
                 </li>
               ))}
             </ul>
+           
             <h5 className="mt-4">Filter by</h5>
             <Form>
               <Form.Group controlId="priceRange">
@@ -95,7 +96,6 @@ function  AllProduct() {
               <h3>All Products</h3>
               <span>{products.length} products</span>
               <Form.Select className="w-auto" defaultValue="Recommended">
-                <option value="Recommended"> Recommended</option>
                 <option value="LowToHigh">Price Low to High</option>
                 <option value="HighToLow">Price High to Low</option>
                 <option value="AZ">Name start from A-Z</option>
@@ -104,13 +104,14 @@ function  AllProduct() {
               </Form.Select>
             </div>
 
-          <a href="./product"> <Row>
+             <Row>
               {products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
+                  <a href="product"><Link to={`/product/${product.id}`}>
                   <Card className="h-100">
                     <Card.Img
                       variant="top"
-                      src="https://via.placeholder.com/150"
+                      src="/image/cardimage.jpg"
                       alt={product.productName || "Product Image"}
                     />
                     <Card.Body>
@@ -122,19 +123,20 @@ function  AllProduct() {
                            product.price
                        }
                       </Card.Text>
-                     
                     </Card.Body>
                   </Card>
+                  </Link>
+                  </a>
                 </Col>
+               
               ))}
             </Row>
-            </a> 
+           
           </Col>
         </Row>
-       
       )}
     </Container>
   );
 }
 
-export default AllProduct;
+export default AllProducts;

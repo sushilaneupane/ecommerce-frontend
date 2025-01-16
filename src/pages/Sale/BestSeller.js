@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Spinner, Alert } from "react-bootstrap
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
-import { getProducts } from "../../api/products";
+import { getProducts } from "../../api/productsApi";
 
 function BestSeller() {
   const [categories, setCategories] = useState([]);
