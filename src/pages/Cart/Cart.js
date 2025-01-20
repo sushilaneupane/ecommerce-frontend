@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Container, Table, Button, Image, Row, Col, Form } from "react-bootstrap";
 import { getCartsByUserId } from "../../api/cartApi";
-import { ToastContainer } from "react-toastify";
+import { deleteCart } from "../../api/cartApi"; 
+import { ToastContainer, toast } from "react-toastify";
 
 function ShoppingCart() {
     const [cartItems, setCartItems] = useState([]);
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
 
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));    
-    const token = localStorage.getItem("token")    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const carts = await getCartsByUserId(loggedInUser.id, token);
+                setCartItems(carts);
+            } catch (err) {
+                console.error(err.message || "Something went wrong while fetching data.");
+                toast.error("Failed to load cart items.");
+            }
+        };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-      const carts = await getCartsByUserId(loggedInUser.id, token);      
-      setCartItems(carts);
-      } catch (err) {
-        console.log(err.message || "Something went wrong while fetching data.");
-      }
+        fetchData();
+    }, [loggedInUser.id, token]);
+
+    const updateQuantity = (id, newQuantity) => {
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === id ? { ...item, quantity: newQuantity } : item
+            )
+        );
     };
 
-    fetchData();
-  }, []);
-
-  const updateQuantity = (id, newQuantity) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-  
+    const handleDelete = async (cartId) => {
+        try {            
+            await deleteCart(cartId, token);
+            setCartItems((prevItems) => prevItems.filter((item) => item.id !== cartId));
+            toast.success("Item removed from the cart!");
+        } catch (err) {
+            console.error("Failed to delete cart item:", err.message);
+            toast.error("Failed to remove item.");
+        }
+    };
 
     const calculateTotal = () =>
         cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -55,12 +66,9 @@ function ShoppingCart() {
                                     <Col md={2}>
                                         <Image src="/image/cardimage.jpg" alt="Product" height={75} width={75} rounded />
                                     </Col>
-                                   
                                     <Col md={10} className="p-4">
-                                        <p>        {item.productName}</p>
-                                        {/* <p>Size: {item.size}, Color: {item.color}, SKU: {item.sku}</p> */}
+                                        <p>{item.productName}</p>
                                     </Col>
-                                    
                                 </Row>
                             </td>
                             <td>
@@ -74,9 +82,7 @@ function ShoppingCart() {
                             <td>Rs. {item.price}</td>
                             <td>Rs. {(item.price * item.quantity).toFixed(2)}</td>
                             <td>
-                                <Button variant="danger" 
-                                // onClick={() => removeItem(item.id)}
-                                >
+                                <Button variant="danger"  onClick={() => handleDelete(item.id)}>
                                     Remove
                                 </Button>
                             </td>
@@ -85,14 +91,13 @@ function ShoppingCart() {
                 </tbody>
             </Table>
             <div className="d-flex justify-content-between w-100">
-                    <h4>Total:</h4>
-                    <h4 className="text-end">Rs. {calculateTotal().toFixed(2)}</h4>
-                </div>
+                <h4>Total:</h4>
+                <h4 className="text-end">Rs. {calculateTotal().toFixed(2)}</h4>
+            </div>
             <div className="mt-3 text-end">
-                <Button variant="success">Checkout</Button></div>
-
-
-
+                <Button variant="success">Checkout</Button>
+            </div>
+            <ToastContainer />
         </Container>
     );
 }

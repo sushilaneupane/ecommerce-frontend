@@ -5,10 +5,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LoginUser } from "../../api/usersApi";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../ToastContext";
+
 
 function LoginForm() {
-  
   const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const { setToastMessage } = useToast();
   const navigate = useNavigate();
 
 
@@ -23,16 +25,15 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await LoginUser(loginData)  
+      const response = await LoginUser(loginData)
 
       if (response.status === 200) {
         const token = response.data.data.token;
         const user = response.data.data.user;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-
-        toast.success(response.data.message);
-        setTimeout(() => navigate("/"), 500);
+        setToastMessage(response.data.message);
+        navigate("/");
       }
     } catch (error) {
       toast.error(error.error);

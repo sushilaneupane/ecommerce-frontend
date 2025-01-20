@@ -12,9 +12,12 @@ import ProductPage from './pages/products/Product';
 import Favourites from './pages/Favourites/Favourite';
 import ShoppingCart from './pages/Cart/Cart';
 import CategoryPage from './compoents/Category/Category';
+import { ToastContainer } from 'react-toastify';
 
 const AppRouter = () => {
     return (
+        <>
+        <ToastContainer />
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
@@ -30,6 +33,7 @@ const AppRouter = () => {
             <Route path='/cart' element={<ShoppingCart />} />
             <Route path="/product/:productId" element={<ProductPage />} />
         </Routes>
+        </>
     );
 }
 

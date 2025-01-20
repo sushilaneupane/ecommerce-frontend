@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Form, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Spinner, Alert, ToastContainer } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
 import { getProducts } from "../../api/productsApi";
+import { toast } from "react-toastify";
+import { useToast } from "../../ToastContext";
 
 function  Home() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { toastMessage, setToastMessage } = useToast();
+
+
+  useEffect(() => {
+    if (toastMessage) {
+      console.log(toastMessage, "message"); // Ensure this logs the correct message
+      toast.success(toastMessage);
+      setToastMessage(null); // Reset after showing
+    }
+  }, [toastMessage, setToastMessage]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +44,7 @@ function  Home() {
 
   return (
     <Container className="mt-5 mb-5">
+          <ToastContainer />
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"

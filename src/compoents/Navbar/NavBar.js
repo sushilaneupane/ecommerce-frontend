@@ -9,10 +9,30 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
+import { getCartsByUserId } from "../../api/cartApi";
+import { toast } from "react-toastify";
 
 function Menu() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+    const [cartItems, setCartItems] = useState([]);
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const carts = await getCartsByUserId(loggedInUser.id, token);
+          setCartItems(carts);
+        } catch (err) {
+          console.error(err.message || "Something went wrong while fetching data.");
+          toast.error("Failed to load cart items.");
+        }
+      };
+  
+      fetchData();
+    }, [loggedInUser.id, token]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -57,6 +77,7 @@ function Menu() {
               <span>Favorites</span>
             </Nav.Link>
             <Nav.Link href="/cart" className="d-flex align-items-center">
+            {cartItems?.length}
               <i className="bi bi-cart me-1" aria-hidden="true"></i>
               <span>Cart</span>
             </Nav.Link>

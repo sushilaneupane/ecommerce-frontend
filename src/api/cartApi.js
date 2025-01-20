@@ -28,3 +28,17 @@ export const getCartsByUserId = async (userId, token) => {
     throw error;
   }
 };
+export const deleteCart = async (id, token) => {
+  try {
+    const response = await axiosInstance.delete(`/carts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting cart:", error.message);
+    throw error;
+  }
+};
+

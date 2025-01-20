@@ -5,8 +5,10 @@ import AppRouter from './AppRouter';
 import { BrowserRouter} from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastProvider } from './ToastContext';
 const App = () => {
     return (
+      <ToastProvider>
       <BrowserRouter>
          <div>
          <ToastContainer 
@@ -26,6 +28,7 @@ const App = () => {
           <Footer />
         </div>
       </BrowserRouter>
+      </ToastProvider>
     );
   };
   
