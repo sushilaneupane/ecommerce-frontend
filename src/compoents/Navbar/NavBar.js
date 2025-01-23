@@ -27,7 +27,7 @@ function Menu() {
           setCartItems(carts);
         } catch (err) {
           console.error(err.message || "Something went wrong while fetching data.");
-          toast.error("Failed to load cart items.");
+          // toast.error("Failed to load cart items.");
         }
       };
   

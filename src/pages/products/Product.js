@@ -2,27 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { getProductsById } from "../../api/productsApi";
 import { Container, Row, Col, Breadcrumb, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams, Link } from "react-router-dom";
-import{createCart}from "../../api/cartApi";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { createCart } from "../../api/cartApi";
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
-
+import { getWishlistByUserId, createWishlist } from "../../api/wishlistApi";
 
 const ProductPage = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
     const [formData, setFormData] = useState({
         quantity: "",
-    })
+    });
     const navigate = useNavigate();
-    
-
-
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(productId);
                 const productsData = await getProductsById(productId);
                 setProduct(productsData);
             } catch (err) {
@@ -37,25 +36,38 @@ const ProductPage = () => {
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
-        }))
-    }
- const handleSubmit = async (event) => {
+        }));
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const token = localStorage.getItem("token");
-        const user = JSON.parse(localStorage.getItem("user"));        
+        const user = JSON.parse(localStorage.getItem("user"));
 
         const data = {
             ...formData,
             productId: productId,
             userId: user.id
-        }
-        console.log(data, token, "both")
+        };
+
         try {
             const response = await createCart(data, token);
             if (response) {
-                toast.success("card added  sucessfully")
-                // setTimeout(() => navigate("/cart"), 500);
+                toast.success("Cart added successfully");
             }
+        } catch (error) {
+            toast.error(error);
+        }
+    };
+
+    const handleAddToFavourites = async () => {
+        try {
+            const data = {
+                userId: loggedInUser.id,
+                productId: productId
+            };            
+            await createWishlist(data, token);
+            toast.success("Added to favourites!");
+            navigate("/favourite");
         } catch (error) {
             toast.error(error);
         }
@@ -84,47 +96,24 @@ const ProductPage = () => {
                 <Col md={6}>
                     <h4>{product.productName || "Product Name"}</h4>
                     <p className="text-danger">
-                        <span className="text-muted ">Rs {product.price || "0"}</span>
+                        <span className="text-muted">Rs {product.price || "0"}</span>
                     </p>
 
                     <Form onSubmit={handleSubmit}>
-                        {/* <Form.Group className="mb-3">
-                            <Form.Label>Color:</Form.Label>
-                            <div>
-                                <Form.Check type="radio" name="color" label="Black" defaultChecked />
-                            </div>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3 w-50">
-                            <Form.Label>Size:</Form.Label>
-                            <Form.Select>
-                                <option value="S">Small</option>
-                                <option value="M">Medium</option>
-                                <option value="L">Large</option>
-                            </Form.Select>
-                        </Form.Group> */}
-
                         <Form.Group className="mb-3 w-25">
                             <Form.Label>Quantity:</Form.Label>
                             <Form.Control onChange={handleChange} name='quantity' value={formData.quantity} type="number" min="1" defaultValue="1" />
                         </Form.Group>
 
-                        <div className="mb-3 d-flex gap-4">
-                            {/* <Link to="/favourite">
-                                <Button variant="success" className="d-flex align-items-center">
-                                    Add to Favourites <i className="bi bi-heart ms-2" aria-hidden="true"></i>
-                                </Button>
-                            </Link> */}
-                                <Button type='submit' variant="success" className="d-flex align-items-center">
-                                    Add to Cart <i className="bi bi-cart ms-2" aria-hidden="true"></i>
-                                </Button>
+                        <div className="mb-3 d-flex gap-5">
+                            <Button type='submit' variant="success" className="d-flex align-items-center">
+                                Add to Cart <i className="bi bi-cart ms-2" aria-hidden="true"></i>
+                            </Button>
+                            
+                            <Button onClick={handleAddToFavourites} variant="light" className="d-flex align-items-center">
+                                <i className="fas fa-heart"></i>
+                            </Button>
                         </div>
-
-                        {/* <Link to="/buy">
-                            <div className="mb-3">
-                                <Button variant="danger">Buy Now</Button>
-                            </div>
-                        </Link> */}
                     </Form>
 
                     <div className="mb-3">

@@ -6,6 +6,7 @@ import { getCategories } from "../../api/categoriesApi";
 import { getProducts } from "../../api/productsApi";
 import { toast } from "react-toastify";
 import { useToast } from "../../ToastContext";
+import ProductCard from "../../compoents/Product";
 
 function  Home() {
   const [categories, setCategories] = useState([]);
@@ -103,7 +104,6 @@ function  Home() {
               </Form.Group>
             </Form>
           </Col>
-
           <Col xs={12} md={9}>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3>All Products</h3>
@@ -116,35 +116,13 @@ function  Home() {
                 <option value="ZA">Name Z-A</option>
               </Form.Select>
             </div>
-
-             <Row>
+            <Row>
               {products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
-                  <a href="product"><Link to={`/product/${product.id}`}>
-                  <Card className="h-100">
-                    <Card.Img
-                      variant="top"
-                      src="/image/cardimage.jpg"
-                      alt={product.productName || "Product Image"}
-                    />
-                    <Card.Body>
-                      <Card.Text className="text-center">
-                        {product.productName || "Unknown Product"}
-                      </Card.Text>
-                      <Card.Text className="text-center">
-                       {
-                           product.price
-                       }
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                  </Link>
-                  </a>
+                  <ProductCard product={product} />
                 </Col>
-               
               ))}
             </Row>
-           
           </Col>
         </Row>
       )}

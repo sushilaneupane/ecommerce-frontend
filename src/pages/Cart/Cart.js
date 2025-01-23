@@ -3,6 +3,7 @@ import { Container, Table, Button, Image, Row, Col, Form } from "react-bootstrap
 import { getCartsByUserId } from "../../api/cartApi";
 import { deleteCart } from "../../api/cartApi"; 
 import { ToastContainer, toast } from "react-toastify";
+import { getWishlistByUserId } from "../../api/wishlistApi";
 
 function ShoppingCart() {
     const [cartItems, setCartItems] = useState([]);
@@ -12,7 +13,7 @@ function ShoppingCart() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const carts = await getCartsByUserId(loggedInUser.id, token);
+                const carts = await getWishlistByUserId(loggedInUser.id, token);
                 setCartItems(carts);
             } catch (err) {
                 console.error(err.message || "Something went wrong while fetching data.");
