@@ -2,7 +2,6 @@ import axiosInstance from "./axiosConfig";
 
 export const createWishlist = async (data, token) => {
   try {    
-    console.log(data, token);
     const response = await axiosInstance.post("/wishlist", data, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,8 +20,8 @@ export const getWishlistByUserId = async (userId, token) => {
       },
     });
     return response.data;
-  } catch (error) {
-    throw error;
+  } catch (error) {    
+    throw error.response.data;
   }
 };
 export const deleteWishlist = async (id, token) => {

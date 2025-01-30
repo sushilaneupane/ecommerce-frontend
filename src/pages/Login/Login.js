@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LoginUser } from "../../api/usersApi";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../ToastContext";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function LoginForm() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const { setToastMessage } = useToast();
   const navigate = useNavigate();
 
 
@@ -25,21 +24,19 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await LoginUser(loginData)
-
+      const response = await LoginUser(loginData);
       if (response.status === 200) {
         const token = response.data.data.token;
         const user = response.data.data.user;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-        setToastMessage(response.data.message);
+        toast.success(response.data.message); 
         navigate("/");
       }
     } catch (error) {
-      toast.error(error.error);
+      toast.error(error.response?.data?.message || "Login failed!"); 
     }
   };
-
   return (
     <Container className="py-5 mb-5">
       <Row className="justify-content-center">

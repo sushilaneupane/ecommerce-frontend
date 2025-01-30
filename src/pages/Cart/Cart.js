@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Table, Button, Image, Row, Col, Form } from "react-bootstrap";
-import { getCartsByUserId } from "../../api/cartApi";
-import { deleteCart } from "../../api/cartApi"; 
+import { getCartsByUserId, updateCart, deleteCart } from "../../api/cartApi";
 import { ToastContainer, toast } from "react-toastify";
-import { getWishlistByUserId } from "../../api/wishlistApi";
 
 function ShoppingCart() {
     const [cartItems, setCartItems] = useState([]);
@@ -13,10 +11,10 @@ function ShoppingCart() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const carts = await getWishlistByUserId(loggedInUser.id, token);
+                const carts = await getCartsByUserId(loggedInUser.id, token);
                 setCartItems(carts);
             } catch (err) {
-                console.error(err.message || "Something went wrong while fetching data.");
+                console.error("Error fetching cart items:", err.message);
                 toast.error("Failed to load cart items.");
             }
         };
@@ -24,16 +22,30 @@ function ShoppingCart() {
         fetchData();
     }, [loggedInUser.id, token]);
 
-    const updateQuantity = (id, newQuantity) => {
-        setCartItems((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id ? { ...item, quantity: newQuantity } : item
-            )
-        );
+    const handleUpdateCart = async (cartItemId, newQuantity) => {
+        if (newQuantity < 1) return; // Prevent quantity from being less than 1
+
+        try {
+            const updatedItem = {
+                cartItemId: cartItemId,
+                quantity: newQuantity
+            };
+
+            await updateCart(cartItemId, updatedItem, token);
+            setCartItems((prevItems) =>
+                prevItems.map((item) =>
+                    item.id === cartItemId ? { ...item, quantity: newQuantity } : item
+                )
+            );
+
+            toast.success("Cart updated successfully");
+        } catch (error) {
+            toast.error(error.message || "Failed to update cart");
+        }
     };
 
     const handleDelete = async (cartId) => {
-        try {            
+        try {
             await deleteCart(cartId, token);
             setCartItems((prevItems) => prevItems.filter((item) => item.id !== cartId));
             toast.success("Item removed from the cart!");
@@ -48,7 +60,9 @@ function ShoppingCart() {
 
     return (
         <Container className="my-5">
-            <h3 className="p-4 mb-5">Shopping Cart <span>({cartItems?.length} Items)</span></h3>
+            <h3 className="p-4 mb-5">
+                Shopping Cart <span>({cartItems?.length} Items)</span>
+            </h3>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -65,9 +79,15 @@ function ShoppingCart() {
                             <td>
                                 <Row className="align-items-center">
                                     <Col md={2}>
-                                        <Image src="/image/cardimage.jpg" alt="Product" height={75} width={75} rounded />
+                                        <Image
+                                            src="/image/cardimage.jpg"
+                                            alt="Product"
+                                            height={75}
+                                            width={75}
+                                            rounded
+                                        />
                                     </Col>
-                                    <Col md={10} className="p-4">
+                                    <Col md={10} className="p-5">
                                         <p>{item.productName}</p>
                                     </Col>
                                 </Row>
@@ -77,13 +97,15 @@ function ShoppingCart() {
                                     type="number"
                                     value={item.quantity}
                                     min="1"
-                                    onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 1)}
+                                    onChange={(e) =>
+                                        handleUpdateCart(item.id, parseInt(e.target.value) || 1)
+                                    }
                                 />
                             </td>
                             <td>Rs. {item.price}</td>
                             <td>Rs. {(item.price * item.quantity).toFixed(2)}</td>
                             <td>
-                                <Button variant="danger"  onClick={() => handleDelete(item.id)}>
+                                <Button variant="danger" onClick={() => handleDelete(item.id)}>
                                     Remove
                                 </Button>
                             </td>

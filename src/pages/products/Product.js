@@ -11,7 +11,7 @@ const ProductPage = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
     const [formData, setFormData] = useState({
-        quantity: "",
+        quantity: "1",
     });
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -43,17 +43,17 @@ const ProductPage = () => {
         event.preventDefault();
         const user = JSON.parse(localStorage.getItem("user"));
 
+        try {
         const data = {
             ...formData,
             productId: productId,
             userId: user.id
         };
 
-        try {
-            const response = await createCart(data, token);
-            if (response) {
-                toast.success("Cart added successfully");
-            }
+             await createCart(data, token);
+             toast.success("Cart added successfully");
+            navigate("/cart");
+            
         } catch (error) {
             toast.error(error);
         }
@@ -88,7 +88,7 @@ const ProductPage = () => {
             <Row>
                 <Col md={6}>
                     <img
-                        src={product.image || "/image/cardimage.jpg"} // Dynamically load image
+                        src={product.image || "/image/cardimage.jpg"} 
                         alt="Product"
                         className="img-fluid border"
                     />

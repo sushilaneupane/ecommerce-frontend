@@ -41,4 +41,16 @@ export const deleteCart = async (id, token) => {
     throw error;
   }
 };
-
+export const updateCart = async (cartItemId, data, token) => {
+  try {
+    const response = await axiosInstance.put(`/catrs/${cartItemId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data;
+  } catch (error) {
+    console.error("Error updating cart:", error.message);
+    throw error;
+  }
+};

@@ -15,24 +15,7 @@ import { toast } from "react-toastify";
 function Menu() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
-    const [cartItems, setCartItems] = useState([]);
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
-    const token = localStorage.getItem("token");
   
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const carts = await getCartsByUserId(loggedInUser.id, token);
-          setCartItems(carts);
-        } catch (err) {
-          console.error(err.message || "Something went wrong while fetching data.");
-          // toast.error("Failed to load cart items.");
-        }
-      };
-  
-      fetchData();
-    }, [loggedInUser.id, token]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -72,16 +55,19 @@ function Menu() {
                 {isLoggedIn ? "Logout" : "Login"}
               </span>
             </div>
+            {isLoggedIn && (
+               <>
             <Nav.Link href="/favourite" className="d-flex align-items-center">
               <i className="bi bi-heart me-1" aria-hidden="true"></i>
               <span>Favorites</span>
             </Nav.Link>
             <Nav.Link href="/cart" className="d-flex align-items-center">
-            {cartItems?.length}
               <i className="bi bi-cart me-1" aria-hidden="true"></i>
               <span>Cart</span>
             </Nav.Link>
-          </Nav>
+          </>
+            )}
+             </Nav>
         </Container>
       </Navbar>
 

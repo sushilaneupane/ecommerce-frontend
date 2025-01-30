@@ -8,8 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const ProductCard = ({ product }) => {
   return (
     <>
-    {console.log(product,"asdfghjkl")}
-  
     <Link to={`/product/${product.id}`} style={{ textDecoration: "none" }}>
       <Card className="h-100">
         <Card.Img
@@ -22,7 +20,6 @@ const ProductCard = ({ product }) => {
             {product.productName || "Unknown Product"}
           </Card.Text>
           <Card.Text className="text-center">RS {product.price}</Card.Text>
-         
         </Card.Body>
       </Card>
     </Link>
