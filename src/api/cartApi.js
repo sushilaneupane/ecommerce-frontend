@@ -41,9 +41,11 @@ export const deleteCart = async (id, token) => {
     throw error;
   }
 };
-export const updateCart = async (cartItemId, data, token) => {
+export const updateCart = async (id, data, token) => {
   try {
-    const response = await axiosInstance.put(`/catrs/${cartItemId}`, data, {
+    console.log(id, data, token);
+    
+    const response = await axiosInstance.patch(`/carts/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`
       }

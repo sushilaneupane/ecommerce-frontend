@@ -3,13 +3,11 @@ import { Row, Col, Container, Card } from "react-bootstrap";
 import { getWishlistByUserId, deleteWishlist } from "../../api/wishlistApi";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const Favourites = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const loggedInUser = useMemo(() => JSON.parse(localStorage.getItem("user")), []);
   const token = useMemo(() => localStorage.getItem("token"), []);
@@ -40,7 +38,6 @@ const Favourites = () => {
       await deleteWishlist(wishlistId, token);
       setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== wishlistId));
       toast.success("Items remove from favourate!");
-      navigate("/");
     } catch (error) {
       toast.error(error);
     }
@@ -72,8 +69,8 @@ const Favourites = () => {
         <Row>
           {wishlistItems.map((item, index) => (
             <Col xs={10} sm={6} lg={3} className="mb-4" key={`${item.id}-${index}`}>
-              <Link to={`/product/${item.id}`} style={{ textDecoration: "none" }}>
                 <Card className="h-100 small-card">
+                <Link to={`/product/${item.id}`} style={{ textDecoration: "none" }}>
                   <Card.Img
                     variant="top"
                     src={item.imageUrl || "/image/cardimage.jpg"}
@@ -86,6 +83,7 @@ const Favourites = () => {
                     </Card.Text>
                     <Card.Text className="text-center small-text">RS {item.price}</Card.Text>
                   </Card.Body>
+                  </Link>
                   <button
                     variant="light"
                     size="sm"
@@ -96,8 +94,6 @@ const Favourites = () => {
                     <i className="fas fa-heart text-danger"></i>
                   </button>
                 </Card>
-
-              </Link>
             </Col>
           ))}
         </Row>

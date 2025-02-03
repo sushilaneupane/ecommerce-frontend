@@ -22,13 +22,15 @@ function ShoppingCart() {
         fetchData();
     }, [loggedInUser.id, token]);
 
-    const handleUpdateCart = async (cartItemId, newQuantity) => {
-        if (newQuantity < 1) return; // Prevent quantity from being less than 1
-
+    const handleUpdateCart = async (cartItemId, productId, newQuantity) => {
+        if (newQuantity < 1) return;
+            console.log(cartItemId, "cart item");
+            
         try {
             const updatedItem = {
-                cartItemId: cartItemId,
-                quantity: newQuantity
+                quantity: newQuantity,
+                userId: loggedInUser.id,
+                productId: productId
             };
 
             await updateCart(cartItemId, updatedItem, token);
@@ -37,7 +39,6 @@ function ShoppingCart() {
                     item.id === cartItemId ? { ...item, quantity: newQuantity } : item
                 )
             );
-
             toast.success("Cart updated successfully");
         } catch (error) {
             toast.error(error.message || "Failed to update cart");
@@ -98,7 +99,7 @@ function ShoppingCart() {
                                     value={item.quantity}
                                     min="1"
                                     onChange={(e) =>
-                                        handleUpdateCart(item.id, parseInt(e.target.value) || 1)
+                                        handleUpdateCart(item.id, item.productId, parseInt(e.target.value) || 1)
                                     }
                                 />
                             </td>
