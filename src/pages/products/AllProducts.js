@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { getCategories } from "../../api/categoriesApi";
 import { getProducts } from "../../api/productsApi";
 
-function  AllProducts() {
+function AllProducts() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,14 +53,14 @@ function  AllProducts() {
         <Row>
           <Col xs={12} md={3} className="mb-4">
             <h5> ＢＲＯＷＳＥ ＢＹ ✨</h5>
-           <ul className="list-unstyled">
+            <ul className="list-unstyled">
               {categories.map((category) => (
                 <li key={category.id}>
-                <a href="/category">  <Link to={`/category/${category.id}`}>{category.name}</Link></a>
+                  <a href="/category">  <Link to={`/category/${category.id}`}>{category.name}</Link></a>
                 </li>
               ))}
             </ul>
-           
+
             <h5 className="mt-4">Filter by</h5>
             <Form>
               <Form.Group controlId="priceRange">
@@ -99,39 +99,43 @@ function  AllProducts() {
                 <option value="LowToHigh">Price Low to High</option>
                 <option value="HighToLow">Price High to Low</option>
                 <option value="AZ">Name start from A-Z</option>
-                <option value= "Newest">Newest</option>
+                <option value="Newest">Newest</option>
                 <option value="ZA">Name Z-A</option>
               </Form.Select>
             </div>
 
-             <Row>
+            <Row>
               {products.map((product) => (
                 <Col xs={12} sm={6} lg={3} className="mb-4" key={product.id}>
                   <a href="product"><Link to={`/product/${product.id}`}>
-                  <Card className="h-100">
-                    <Card.Img
-                      variant="top"
-                      src="/image/cardimage.jpg"
-                      alt={product.productName || "Product Image"}
-                    />
-                    <Card.Body>
-                      <Card.Text className="text-center">
-                        {product.productName || "Unknown Product"}
-                      </Card.Text>
-                      <Card.Text className="text-center">
-                       {
-                           product.price
-                       }
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                    <Card className="h-100">
+                      <Card.Img
+                        variant="top"
+                        src={
+                          product.images.length > 0
+                            ?  `http://localhost:3001/uploads/${product.images[0].image}`
+                            : "/image/cardimage.jpg"
+                        }
+                        alt={product.productName || "Product Image"}
+                      />
+                      <Card.Body>
+                        <Card.Text className="text-center">
+                          {product.productName || "Unknown Product"}
+                        </Card.Text>
+                        <Card.Text className="text-center">
+                          {
+                            product.price
+                          }
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
                   </Link>
                   </a>
                 </Col>
-               
+
               ))}
             </Row>
-           
+
           </Col>
         </Row>
       )}

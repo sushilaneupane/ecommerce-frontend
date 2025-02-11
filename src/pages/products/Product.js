@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { getProductsById } from "../../api/productsApi";
-import { Container, Row, Col, Breadcrumb, Form, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Breadcrumb, Form, Button, Carousel } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { createCart } from "../../api/cartApi";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { getWishlistByUserId, createWishlist } from "../../api/wishlistApi";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ProductImageSlider from  "../../compoents/Carousel/ProductCarousel"
+import ProductCarousel from "../../compoents/Carousel/ProductCarousel";
 
 const ProductPage = () => {
     const { productId } = useParams();
@@ -14,8 +17,6 @@ const ProductPage = () => {
         quantity: "1",
     });
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
 
@@ -44,16 +45,15 @@ const ProductPage = () => {
         const user = JSON.parse(localStorage.getItem("user"));
 
         try {
-        const data = {
-            ...formData,
-            productId: productId,
-            userId: user.id
-        };
+            const data = {
+                ...formData,
+                productId: productId,
+                userId: user.id,
+            };
 
-             await createCart(data, token);
-             toast.success("Cart added successfully");
+            await createCart(data, token);
+            toast.success("Cart added successfully");
             navigate("/cart");
-            
         } catch (error) {
             toast.error(error);
         }
@@ -63,8 +63,8 @@ const ProductPage = () => {
         try {
             const data = {
                 userId: loggedInUser.id,
-                productId: productId
-            };            
+                productId: productId,
+            };
             await createWishlist(data, token);
             toast.success("Added to favourites!");
             navigate("/favourite");
@@ -86,13 +86,19 @@ const ProductPage = () => {
             </Breadcrumb>
 
             <Row>
+
                 <Col md={6}>
-                    <img
-                        src={product.image || "/image/cardimage.jpg"} 
-                        alt="Product"
-                        className="img-fluid border"
-                    />
-                </Col>
+                   {product.images && product.images.length > 0 ? (
+                    <ProductCarousel product={product}/>
+                   ) : (
+                     <img
+                       className="img-fluid border"
+                       src="/image/cardimage.jpg"
+                       alt="Default Product"
+                     />
+                   )}
+                 </Col>
+               
                 <Col md={6}>
                     <h4>{product.productName || "Product Name"}</h4>
                     <p className="text-danger">
@@ -102,14 +108,21 @@ const ProductPage = () => {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3 w-25">
                             <Form.Label>Quantity:</Form.Label>
-                            <Form.Control onChange={handleChange} name='quantity' value={formData.quantity} type="number" min="1" defaultValue="1" />
+                            <Form.Control
+                                onChange={handleChange}
+                                name="quantity"
+                                value={formData.quantity}
+                                type="number"
+                                min="1"
+                                defaultValue="1"
+                            />
                         </Form.Group>
 
                         <div className="mb-3 d-flex gap-5">
-                            <Button type='submit' variant="success" className="d-flex align-items-center">
+                            <Button type="submit" variant="success" className="d-flex align-items-center">
                                 Add to Cart <i className="bi bi-cart ms-2" aria-hidden="true"></i>
                             </Button>
-                            
+
                             <Button onClick={handleAddToFavourites} variant="light" className="d-flex align-items-center">
                                 <i className="fas fa-heart"></i>
                             </Button>
