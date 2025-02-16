@@ -55,6 +55,7 @@ const ProductPage = () => {
             toast.success("Cart added successfully");
             navigate("/cart");
         } catch (error) {
+            console.log(error);
             toast.error(error);
         }
     };

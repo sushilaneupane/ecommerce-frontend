@@ -13,6 +13,7 @@ import Favourites from './pages/Favourites/Favourite';
 import ShoppingCart from './pages/Cart/Cart';
 import CategoryPage from './compoents/Category/Category';
 import { ToastContainer } from 'react-toastify';
+import SubcategoryPage from './pages/Subcategory/Subcategory';
 
 const AppRouter = () => {
     return (
@@ -32,6 +33,7 @@ const AppRouter = () => {
             < Route path='/favourite' element={<Favourites />} />
             <Route path='/cart' element={<ShoppingCart />} />
             <Route path="/product/:productId" element={<ProductPage />} />
+            <Route path='/subcategory' element={<SubcategoryPage/>}/>
         </Routes>
         </>
     );

@@ -10,7 +10,7 @@ export const createCart = async (data, token) => {
     return response.data;
   } catch (error) {
     console.error("Error creating cart:", error.message);
-    throw error;
+    throw error.response.data;
   }
 };
 

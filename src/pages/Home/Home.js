@@ -13,6 +13,7 @@ function  Home() {
    const [products, setProducts] = useState([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
+   const [hoveredCategory, setHoveredCategory] = useState(null);
  
    useEffect(() => {
      const fetchData = async () => {
