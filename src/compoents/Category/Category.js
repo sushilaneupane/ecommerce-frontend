@@ -65,10 +65,10 @@ function CategoryPage() {
       <Row>
         <Col xs={12} md={3} className="mb-4">
           <h5>ＢＲＯＷＳＥ ＢＹ ✨</h5>
-          <ul className="list-unstyled">
+          <ul className="list-unstyled ">
             {categories.map((category) => (
               <li key={category.id}>
-                <Link to={`/category/${category.id}`}>{category.name}</Link>
+                <Link to={`/category/${category.id}`}>{category.name} </Link>
               </li>
             ))}
           </ul>

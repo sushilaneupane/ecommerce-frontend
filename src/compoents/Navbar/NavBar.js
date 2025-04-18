@@ -35,7 +35,7 @@ function Menu() {
       <Navbar bg="light" className="shadow-sm py-2 border-bottom">
         <Container fluid>
           <Navbar.Brand href="/" className="fw-bold">
-            ✧･ﾟMato Craft✧
+            ✧･ﾟPurelyPick✧
           </Navbar.Brand>
           <Form className="d-flex w-50 w-md-50 my-2 my-md-0">
             <Form.Control
