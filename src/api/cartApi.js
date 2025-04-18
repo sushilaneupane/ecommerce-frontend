@@ -14,6 +14,20 @@ export const createCart = async (data, token) => {
   }
 };
 
+// export const getCartItems = async (userId, token) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/${userId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`, // Pass token for authentication
+//       },
+//     });
+//     return response.data.cartItems; // Return the cart items
+//   } catch (error) {
+//     console.error("Error fetching cart items:", error);
+//     return [];
+//   }
+// };
+
 
 export const getCartsByUserId = async (userId, token) => {
   try {    

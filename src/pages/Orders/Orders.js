@@ -3,8 +3,11 @@ import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { getAddressByUserId } from "../../api/addressApi";
 import { toast } from "react-toastify";
 import { createAddress } from "../../api/addressApi";
+import { useLocation } from "react-router-dom";
 
 const CheckoutPage = () => {
+  const location = useLocation()
+  const {cartItems} = location.state || [];
   const [addressFound, setAddressFound] = useState();
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
@@ -88,6 +91,7 @@ const CheckoutPage = () => {
       [name]: value,
     }))
   }
+ 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -143,7 +147,7 @@ const CheckoutPage = () => {
                 </p>
               </Card>
 
-              {products.map((product) => (
+              {cartItems.map((product) => (
                 <Card className="p-4 mb-3" key={product.id}>
                   <Row>
                     <Col md={2}>

@@ -9,7 +9,7 @@ const Footer = () => {
           <Col md={4} className="mb-3">
             <h5 className="fw-bold">About Us</h5>
             <p>
-              Mato Craft is one of the best modern-generation e-commerce platforms, offering a wide range of products to meet every need. Established in 2024 by Sushila Neupane, Mato Craft is renowned for its customer-friendly approach and seamless shopping experience. With a commitment to quality and convenience, Mato Craft has become a trusted destination for shoppers looking for variety and value.
+            PurelyPick is one of the best modern-generation e-commerce platforms, offering a wide range of products to meet every need. Established in 2024 by Sushila Neupane, PurelyPick is renowned for its customer-friendly approach and seamless shopping experience. With a commitment to quality and convenience, PurelyPick has become a trusted destination for shoppers looking for variety and value.
             </p>
           </Col>
           <Col md={4} className="mb-3">
@@ -44,7 +44,7 @@ const Footer = () => {
           </Col>
           <Col md={4}>
             <h5 className="fw-bold">Contact Us</h5>
-            <p>Email: Mato Craft2024@example.com</p>
+            <p>Email: PurelyPick2024@example.com</p>
             <p>Phone: 9863476766</p>
             <h5 className="fw-bold">Follow Us</h5>
             <div>
@@ -74,7 +74,7 @@ const Footer = () => {
         </Row>
         <Row>
           <Col className="text-center mt-3">
-            <p className="mb-0">&copy; 2024 Mato Craft. All Rights Reserved.</p>
+            <p className="mb-0">&copy; 2024 PurelyPick. All Rights Reserved.</p>
           </Col>
         </Row>
       </Container>

@@ -4,7 +4,7 @@ import { getCartsByUserId, updateCart, deleteCart } from "../../api/cartApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-
+ 
 function ShoppingCart() {
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
@@ -49,6 +49,12 @@ function ShoppingCart() {
             toast.error(error.message || "Failed to update cart");
         }
     };
+    const handleCheckout = () => {
+        if (cartItems.length > 0) {
+          navigate("/Orders", { state: { cartItems } });
+        }
+      };
+    
 
     const handleDelete = async (cartId) => {
         try {
@@ -134,7 +140,7 @@ function ShoppingCart() {
                             className="w-100 mt-3"
                             variant="success"
                             disabled={cartItems.length === 0}
-                            onClick={() => navigate("/Orders")}
+                            onClick={handleCheckout}
                         >
                             Proceed to Checkout ({cartItems.length})
                         </Button>

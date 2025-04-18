@@ -25,3 +25,17 @@ export const createAddress= async (data, token) => {
       throw error.response.data;
     }
   };
+
+  export const updateAddress= async (id, data, token) => {
+    try {    
+      const response = await axiosInstance.put(`/address/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error creating cart:", error.message);
+      throw error.response.data;
+    }
+  };
